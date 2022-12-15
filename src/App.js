@@ -1,25 +1,44 @@
 import logo from './logo.svg';
 import './App.css';
+import {Button, message, ConfigProvider, theme, Modal} from 'antd'
+import React, {useState} from 'react';
+import 'antd/dist/reset.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+
+    const [userTheme, setUserTheme] = useState('light');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    return (
+        <ConfigProvider
+            theme={{
+                algorithm: theme.darkAlgorithm,
+            }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
+            <Button type="primary" onClick={() => {
+                message.success('这是一条成功消息')
+                setIsModalOpen(true)
+                Modal.success({
+                    content: '这是一条成功消息',
+                });
+            }}>Button</Button>
+        </ConfigProvider>
+    );
 }
 
 export default App;
